@@ -1,0 +1,18 @@
+# ---------- Стадия сборки ----------
+FROM eclipse-temurin:17-jdk-alpine AS build
+WORKDIR /app
+
+COPY gradlew build.gradle settings.gradle ./
+COPY gradle ./gradle
+RUN ./gradlew dependencies --no-daemon
+
+COPY . .
+RUN ./gradlew bootJar --no-daemon
+
+# ---------- Финальный образ ----------
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
+
+EXPOSE 8085
+ENTRYPOINT ["java", "-jar", "app.jar"]
