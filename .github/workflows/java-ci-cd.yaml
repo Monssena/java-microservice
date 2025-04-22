@@ -38,8 +38,11 @@ jobs:
       - name: Build all services with Gradle
         run: |
           for dir in Auth_service User_service Order_service Payment_service Notification_service Analytics_service Gateway_service; do
-            (cd $dir && ./gradlew clean bootJar --no-daemon)
+            lower_dir=$(echo "$dir" | tr '[:upper:]' '[:lower:]')
+            docker build -t ghcr.io/${{ github.actor }}/$lower_dir:latest $dir
+            docker push ghcr.io/${{ github.actor }}/$lower_dir:latest
           done
+
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
