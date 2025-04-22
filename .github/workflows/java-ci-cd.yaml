@@ -39,7 +39,7 @@ jobs:
 
       - name: Build & Push Docker images
         run: |
-          username=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
+          username=monssena
           for dir in Auth_service User_service Order_service Payment_service Notification_service Analytics_service Gateway_service; do
             svc=$(echo "$dir" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
             img=ghcr.io/$username/$svc:latest
