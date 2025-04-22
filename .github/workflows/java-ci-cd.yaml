@@ -29,6 +29,12 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Give permission to gradlew
+        run: |
+          for dir in Auth_service User_service Order_service Payment_service Notification_service Analytics_service Gateway_service; do
+            chmod +x "$dir/gradlew"
+          done
+
       - name: Build all services with Gradle
         run: |
           for dir in Auth_service User_service Order_service Payment_service Notification_service Analytics_service Gateway_service; do
