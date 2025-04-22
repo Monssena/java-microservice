@@ -39,10 +39,9 @@ jobs:
 
       - name: Build & Push Docker images
         run: |
-          owner=$(echo "${{ env.OWNER }}" | tr '[:upper:]' '[:lower:]')
           for dir in Auth_service User_service Order_service Payment_service Notification_service Analytics_service Gateway_service; do
             svc=$(echo "$dir" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
-            img=ghcr.io/${owner}/${svc}:latest
+            img=ghcr.io/${{ github.actor }}/$svc:latest
             echo "Building and pushing $img"
             docker build -t $img ./$dir
             docker push $img
